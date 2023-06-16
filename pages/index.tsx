@@ -1,41 +1,64 @@
-import Meteor from "../Sdk/BlueG";
+import DynamicPixels from "../Sdk/DynamicPixels";
 import {LoginWithEmailParams} from "../Sdk/ports/authentication";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
+import {useRouter} from "next/router";
+import {useEffect, useState} from "react";
 
 export default function Login() {
+  const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
+
+  useEffect(()=>{
+
+  }, [])
+  
   const onLogin = async (e: any) => {
     e.preventDefault();
-    console.log("hop")
     const { email, password } = Object.fromEntries(
       new FormData(e.target).entries()
     );
 
-    let response = await Meteor.Auth.LoginWithEmail(
-      new LoginWithEmailParams({
-        email: email.toString(),
-        password: password.toString(),
-      })
-    );
+    try {
+      setLoading(true);
+
+      let response = await DynamicPixels.Auth.LoginWithEmail(
+          new LoginWithEmailParams({
+            email: email.toString(),
+            password: password.toString(),
+          })
+      );
+
+      await router.push("/console/home")
+    }catch (e) {
+
+    }finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
       <main className={styles.main}>
         <div className={styles.center}>
-          <h1>Login/Register</h1>
+          <h1>DynamicPixels</h1>
+          <h3>Login / Register</h3>
         </div>
         <div className={styles.gridcenter}>
           <form className={styles.form} onSubmit={onLogin}>
-            <div className={styles.input}>
-              <input type="text" name="email" placeholder="Email" required />
+
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">Email address</label>
+              <input type="text" className="form-control" name="email" placeholder="Email" required />
             </div>
 
-            <div className={styles.input}>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">Password</label>
               <input
-                type="text"
+                type="password"
                 name="password"
+                className="form-control"
                 placeholder="Password"
                 required
               />
@@ -44,21 +67,19 @@ export default function Login() {
             <div className={styles.input}>
               <Link href="/register">Register new account</Link>
             </div>
-            <div className={styles.input}>
-              <input type="submit" value="Submit" />
+
+            <div className="d-grid gap-2">
+              <button type="submit" className="btn btn-success">
+                {loading
+                    ?
+                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    :
+                    "Submit"}
+              </button>
             </div>
           </form>
         </div>
       </main>
     </>
   );
-}
-
-export async function getStaticProps() {
-  Meteor._clientId = "";
-  Meteor._clientSecret = "";
-
-  return {
-    props: {},
-  };
 }

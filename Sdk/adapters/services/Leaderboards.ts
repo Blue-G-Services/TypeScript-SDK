@@ -1,16 +1,17 @@
 import { ILeaderboards} from "../../ports/services";
 import axios from "axios";
-import Meteor from "../../BlueG";
+import DynamicPixels from "../../DynamicPixels";
 import {GetMyFriendsScoresParams, GetMyScoreParams, GetScoresParams, SubmitScoreParams} from "./requests/leaderboard";
+import {Leaderboard, PartyScore, Score, UserScore} from "../../dto/leaderboard";
 
 export class Leaderboards implements ILeaderboards{
-    async GetFriendsScores<T extends GetMyFriendsScoresParams>(input: T): Promise<object[]> {
+    async GetFriendsScores<T extends GetMyFriendsScoresParams>(input: T): Promise<UserScore[]> {
         try {
             let {data} = await axios.get(
-                `${Meteor._gameApiEndpoint}/api/table/services/leaderboard/${input.LeaderboardId}/friends`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/leaderboard/${input.LeaderboardId}/friends`,
                 {
                     headers:{
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
@@ -20,13 +21,29 @@ export class Leaderboards implements ILeaderboards{
         }
     }
 
-    async GetLeaderboards(): Promise<object[]> {
+    async GetLeaderboards(): Promise<Leaderboard[]> {
         try {
             let {data} = await axios.get(
-                `${Meteor._gameApiEndpoint}/api/table/services/leaderboard`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/leaderboard`,
                 {
                     headers:{
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
+                    }
+                });
+
+            return data.list;
+        } catch (e :any) {
+            throw new Error(e.response.data)
+        }
+    }
+
+    async GetMyScore<T extends GetMyScoreParams>(input: T): Promise<UserScore> {
+        try {
+            let {data} = await axios.get(
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/leaderboard/${input.LeaderboardId}/me`,
+                {
+                    headers:{
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
@@ -36,51 +53,52 @@ export class Leaderboards implements ILeaderboards{
         }
     }
 
-    async GetMyScore<T extends GetMyScoreParams>(input: T): Promise<object> {
+    async GetUsersScores<T extends GetScoresParams>(input: T): Promise<UserScore[]> {
         try {
             let {data} = await axios.get(
-                `${Meteor._gameApiEndpoint}/api/table/services/leaderboard/${input.LeaderboardId}/me`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/leaderboard/user/${input.LeaderboardId}?skip=${input.Skip}&limit=${input.Limit}`,
                 {
                     headers:{
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
-            return data;
+            return data.list;
         } catch (e :any) {
             throw new Error(e.response.data)
         }
     }
 
-    async GetScores<T extends GetScoresParams>(input: T): Promise<object[]> {
+
+    async GetPartiesScores<T extends GetScoresParams>(input: T): Promise<PartyScore[]> {
         try {
             let {data} = await axios.get(
-                `${Meteor._gameApiEndpoint}/api/table/services/leaderboard/${input.LeaderboardId}?skip=${input.Skip}&limit=${input.Limit}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/leaderboard/party/${input.LeaderboardId}?skip=${input.Skip}&limit=${input.Limit}`,
                 {
                     headers:{
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
-            return data;
+            return data.list;
         } catch (e :any) {
             throw new Error(e.response.data)
         }
     }
 
-    async SubmitScore<T extends SubmitScoreParams>(input: T): Promise<object> {
+    async SubmitScore<T extends SubmitScoreParams>(input: T): Promise<Score> {
         try {
             let {data} = await axios.post(
-                `${Meteor._gameApiEndpoint}/api/table/services/leaderboard/${input.LeaderboardId}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/leaderboard/${input.LeaderboardId}`,
                 {
                     score: input.Score
                 }, {
                     headers: {
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
-            return data;
+            return data.row;
         } catch (e: any) {
             throw new Error(e.response.data)
         }

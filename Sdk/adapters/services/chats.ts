@@ -9,8 +9,11 @@ import {
     SubscribeParams,
     UnsubscribeParams
 } from "./requests/chat";
+import DynamicPixels from "../../DynamicPixels";
+import {Packet} from "../../transport/socket/wss/wss";
 
 export class Chats implements IChats{
+
     DeleteAllMessage<T extends DeleteAllMessageParams>(): void {
     }
 
@@ -38,6 +41,7 @@ export class Chats implements IChats{
     }
 
     Send<T extends SendParams>(): Promise<object> {
+
         return Promise.resolve({});
     }
 

@@ -1,34 +1,21 @@
 import { IAchievements} from "../../ports/services";
 import {UnlockAchievementParams} from "./requests/achievements";
 import axios from "axios";
-import Meteor from "../../BlueG";
+import DynamicPixels from "../../DynamicPixels";
+import {Achievement} from "../../dto/achievement";
 
 export class Achievements implements IAchievements {
-    async GetAchievements(): Promise<object[]> {
+    async GetAchievements(): Promise<Achievement[]> {
         try {
             let {data} = await axios.get(
-                `${Meteor._gameApiEndpoint}/api/table/services/achievements`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/achievements`,
                 {
                     headers:{
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
-            return data;
-        } catch (e: any) {
-            throw new Error(e.response.data)
-        }
-    }
 
-    async GetUserAchievements(): Promise<object[]> {
-        try {
-            let {data} = await axios.get(
-                `${Meteor._gameApiEndpoint}/api/table/services/achievements/me`,
-                {
-                    headers:{
-                        "Authorization": `bearer ${Meteor.token}`
-                    }
-                });
-            return data;
+            return data.list;
         } catch (e: any) {
             throw new Error(e.response.data)
         }
@@ -37,15 +24,17 @@ export class Achievements implements IAchievements {
     async UnlockAchievements<T extends UnlockAchievementParams>(input: T): Promise<void> {
         try {
             await axios.post(
-                `${Meteor._gameApiEndpoint}/api/table/services/achievements`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/achievements`,
                 {
-                    "achievement_id": input.AchievementId
+                    "achievement_id": input.AchievementId,
+                    "step_id": input.StepId
                 },
                 {
-                    headers:{
-                        "Authorization": `bearer ${Meteor.token}`
+                    headers: {
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
-                });        } catch (e: any) {
+                });
+        } catch (e: any) {
             throw new Error(e.response.data)
         }
     }

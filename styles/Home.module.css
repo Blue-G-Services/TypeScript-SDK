@@ -1,7 +1,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
@@ -46,12 +46,14 @@
 }
 
 .center {
+  width: 100%;
+  text-align: left;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   flex-direction: column;
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 
 .gridcenter {
@@ -155,4 +157,9 @@
 
 .form .input {
   margin-top: 7px;
+  padding: 7px;
+}
+
+.form .input input {
+  padding: 10px ;
 }

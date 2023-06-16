@@ -1,5 +1,5 @@
 export class FindUsersParams{
-    public query:string = "";
+    public query:Map<string, string> = new Map<string, string>()
 }
 
 export class GetUserByIdParams{

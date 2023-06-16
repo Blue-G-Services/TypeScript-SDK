@@ -1,6 +1,6 @@
 import WebSocket from "isomorphic-ws";
 
-class Packet {
+export class Packet {
   public game_id: string = "";
   public user_id: string = "";
   public protocol: string = "";
@@ -12,7 +12,7 @@ export interface WebSocketProvider {
   Send(packet: Packet): void;
 }
 
-class webSocketProvider implements WebSocketProvider {
+export class webSocketProvider implements WebSocketProvider {
   private static _client: WebSocket;
 
   constructor(wssEdgeEndpoint: string) {

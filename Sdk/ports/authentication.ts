@@ -1,5 +1,8 @@
 export class LoginResponse {
   public token: string = "";
+  public edges: {
+    wss:string
+  } | undefined;
 }
 
 export class RegisterWithEmailParams {
@@ -52,4 +55,5 @@ export interface IAuth {
   IsOtaReady<T extends IsOtaReadyParams>(input: T): Promise<boolean>;
   SendOtaToken<T extends SendOtaTokenParams>(input: T): Promise<boolean>;
   VerifyOtaToken<T extends VerifyOtaTokenParams>(input: T): Promise<LoginResponse>;
+  IsLoggedIn():boolean
 }

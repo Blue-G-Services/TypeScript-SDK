@@ -8,8 +8,7 @@ import {
     ITable, UpdateManyParams
 } from "../ports/table";
 import axios from "axios";
-import Meteor from "../BlueG";
-import {Services} from "../ports/services";
+import DynamicPixels from "../DynamicPixels";
 
 export class Table implements ITable {
 
@@ -20,11 +19,11 @@ export class Table implements ITable {
     async Delete<T extends DeleteParams>(input: T): Promise<object> {
         try {
             let {data} = await axios.post(
-                `${Meteor._gameApiEndpoint}/api/table/${input.tableId}/delete`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/delete`,
                 {ids: input.rowsId},
                 {
                     headers: {
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
@@ -37,11 +36,11 @@ export class Table implements ITable {
     async DeleteMany<T extends DeleteManyParams>(input: T): Promise<void> {
         try {
             let {data} = await axios.put(
-                `${Meteor._gameApiEndpoint}/api/table/${input.tableId}/delete`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/delete`,
                 {conditions: input.query},
                 {
                     headers: {
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
@@ -54,10 +53,10 @@ export class Table implements ITable {
     async Find<T extends FindParams>(input: T): Promise<object[]> {
         try {
             let {data} = await axios.get(
-                `${Meteor._gameApiEndpoint}/api/table/${input.tableId}?skip=${input.findOptions?.Skip}&limit=${input.findOptions?.Limit}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}?skip=${input.findOptions?.Skip}&limit=${input.findOptions?.Limit}`,
                 {
                     headers: {
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
@@ -70,10 +69,10 @@ export class Table implements ITable {
     async FindById<T extends FindByIdParams>(input: T): Promise<object> {
         try {
             let {data} = await axios.get(
-                `${Meteor._gameApiEndpoint}/api/table/${input.tableId}/${input.rowId}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/${input.rowId}`,
                 {
                     headers: {
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
@@ -86,10 +85,10 @@ export class Table implements ITable {
     async FindByIdAndDelete<T extends FindByIdAndDeleteParams>(input: T): Promise<object> {
         try {
             let {data} = await axios.delete(
-                `${Meteor._gameApiEndpoint}/api/table/${input.tableId}/${input.rowId}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/${input.rowId}`,
                 {
                     headers: {
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
@@ -102,11 +101,11 @@ export class Table implements ITable {
     async FindByIdAndUpdate<T extends FindByIdAndUpdateParams>(input: T): Promise<object> {
         try {
             let {data} = await axios.post(
-                `${Meteor._gameApiEndpoint}/api/table/${input.tableId}/${input.rowId}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/${input.rowId}`,
                 input.data,
                 {
                     headers: {
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
@@ -119,11 +118,11 @@ export class Table implements ITable {
     async Insert<T extends InsertParams>(input: T): Promise<object> {
         try {
             let {data} = await axios.post(
-                `${Meteor._gameApiEndpoint}/api/table/${input.tableId}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}`,
                 input.data,
                 {
                     headers: {
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
@@ -136,11 +135,11 @@ export class Table implements ITable {
     async InsertMany<T extends InsertManyParams>(input: T): Promise<void> {
         try {
             let {data} = await axios.post(
-                `${Meteor._gameApiEndpoint}/api/table/${input.tableId}/insert`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/insert`,
                 input.data,
                 {
                     headers: {
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
@@ -152,6 +151,4 @@ export class Table implements ITable {
     async UpdateMany<T extends UpdateManyParams>(input: T): Promise<void> {
 
     }
-
-    public Services: Services = new Services();
 }

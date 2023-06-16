@@ -6,15 +6,20 @@ import {
     RequestFriendshipParams
 } from "./requests/friendship";
 import axios from "axios";
-import Meteor from "../../BlueG";
+import DynamicPixels from "../../DynamicPixels";
+import {Friendship} from "../../dto/friendship";
 
-export class Friendship implements IFriendship{
+export class Friendships implements IFriendship{
     async AcceptRequest<T extends AcceptRequestParams>(input: T): Promise<object> {
         try {
             let {data} = await axios.post(
-                `${Meteor._gameApiEndpoint}/api/table/services/friendship/request/${input.requestId}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/request/${input.requestId}`,
                 {},
-                {});
+                {
+                    headers:{
+                        "Authorization": `bearer ${DynamicPixels.token}`
+                    }
+                });
 
             return data;
         } catch (e: any) {
@@ -25,8 +30,12 @@ export class Friendship implements IFriendship{
     async DeleteFriend<T extends RequestFriendshipParams>(input: T): Promise<boolean> {
         try {
             let {data} = await axios.delete(
-                `${Meteor._gameApiEndpoint}/api/table/services/friendship/${input.targetUserId}`,
-                {});
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/${input.targetUserId}`,
+                {
+                    headers:{
+                        "Authorization": `bearer ${DynamicPixels.token}`
+                    }
+                });
 
             return data;
         } catch (e :any) {
@@ -34,11 +43,15 @@ export class Friendship implements IFriendship{
         }
     }
 
-    async GetMyFriends<T extends GetMyFriendsParams>(input: T): Promise<object[]> {
+    async GetMyFriends<T extends GetMyFriendsParams>(input: T): Promise<Friendship[]> {
         try {
             let {data} = await axios.get(
-                `${Meteor._gameApiEndpoint}/api/table/services/friendship?skip=${input.skip}&limit=${input.limit}`,
-                {});
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship?skip=${input.skip}&limit=${input.limit}`,
+                {
+                    headers:{
+                        "Authorization": `bearer ${DynamicPixels.token}`
+                    }
+                });
 
             return data;
         } catch (e :any) {
@@ -49,8 +62,12 @@ export class Friendship implements IFriendship{
     async GetMyFriendshipRequests<T extends GetMyFriendshipRequestParams>(input: T): Promise<object[]> {
         try {
             let {data} = await axios.get(
-                `${Meteor._gameApiEndpoint}/api/table/services/friendship/request?skip=${input.skip}&limit=${input.limit}`,
-                {});
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/request?skip=${input.skip}&limit=${input.limit}`,
+                {
+                    headers:{
+                        "Authorization": `bearer ${DynamicPixels.token}`
+                    }
+                });
 
             return data;
         } catch (e :any) {
@@ -61,10 +78,10 @@ export class Friendship implements IFriendship{
     async RejectAllRequests(): Promise<void> {
         try {
             let {data} = await axios.delete(
-                `${Meteor._gameApiEndpoint}/api/table/services/friendship/request`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/request`,
                 {
                     headers:{
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
@@ -77,10 +94,10 @@ export class Friendship implements IFriendship{
     async RejectRequest<T extends RejectRequestParams>(input: T): Promise<object> {
         try {
             let {data} = await axios.delete(
-                `${Meteor._gameApiEndpoint}/api/table/services/friendship/request/${input.requestId}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/request/${input.requestId}`,
                 {
                     headers:{
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
@@ -93,11 +110,11 @@ export class Friendship implements IFriendship{
     async RequestFriendship<T extends RequestFriendshipParams>(input: T): Promise<object> {
         try {
             let {data} = await axios.post(
-                `${Meteor._gameApiEndpoint}/api/table/services/friendship/request`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/request`,
                 {"user_id": input.targetUserId},
                 {
                     headers:{
-                        "Authorization": `bearer ${Meteor.token}`
+                        "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
             return data;

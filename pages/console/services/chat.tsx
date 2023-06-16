@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "../../styles/Chat.module.css";
+import styles from "../../../styles/Chat.module.css";
 
 class Message {
   public id: number = 0;

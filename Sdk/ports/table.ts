@@ -60,8 +60,6 @@ export class DeleteManyParams {
 }
 
 export interface ITable {
-    Services: Services
-
     Aggregation<T extends AggregationParams>(input: T): Promise<object>;
 
     Find<T extends FindParams>(input: T): Promise<object[]>;
