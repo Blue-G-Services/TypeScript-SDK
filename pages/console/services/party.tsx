@@ -15,11 +15,17 @@ function PartyPage() {
     const [selectedPartyMember, setSelectedPartyMember] = useState<PartyMember[]>([]);
 
     useEffect(() => {
-        if (DynamicPixels.token == "")
-            router.push("/");
+        (async ()=> {
+            if (localStorage.getItem("token") == null)
+                router.push("/");
+            else if (DynamicPixels.token == "")
+                await DynamicPixels.Auth.LoginWithToken({
+                    token: localStorage.getItem("token") || ""
+                })
 
-        getParties("");
-        getSubscribedParties("");
+            await getParties("");
+            await getSubscribedParties("");
+        })()
     }, []);
 
     async function getParties(query: string) {

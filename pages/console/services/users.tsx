@@ -13,9 +13,16 @@ function UsersPage(){
     const [list, setList] = useState<User[]>([]);
 
     useEffect(() => {
-        if (DynamicPixels.token == "")
-            router.push("/");
-        getUserById();
+        (async ()=> {
+            if (localStorage.getItem("token") == null)
+                router.push("/");
+            else if (DynamicPixels.token == "")
+                await DynamicPixels.Auth.LoginWithToken({
+                    token: localStorage.getItem("token") || ""
+                })
+
+            await getUserById();
+        })()
     },[]);
 
     async function findUsers(e: ChangeEvent<{ value: string }>){

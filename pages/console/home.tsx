@@ -11,8 +11,13 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (DynamicPixels.token == "")
+    if (localStorage.getItem("token") == null)
       router.push("/");
+    else if(DynamicPixels.token == "")
+      DynamicPixels.Auth.LoginWithToken({
+        token: localStorage.getItem("token") || ""
+      })
+
   }, [])
 
   return (

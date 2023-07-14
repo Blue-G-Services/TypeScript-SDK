@@ -13,9 +13,16 @@ function LeaderboardsPage(){
     const [scores, setScores] = useState<UserScore[] | PartyScore[]>([]);
 
     useEffect(() => {
-        if (DynamicPixels.token == "")
-            router.push("/");
-        getLeaderboards();
+        (async ()=> {
+            if (localStorage.getItem("token") == null)
+                router.push("/");
+            else if (DynamicPixels.token == "")
+                await DynamicPixels.Auth.LoginWithToken({
+                    token: localStorage.getItem("token") || ""
+                })
+
+            await getLeaderboards();
+        })()
     }, []);
 
     async function getLeaderboards(){

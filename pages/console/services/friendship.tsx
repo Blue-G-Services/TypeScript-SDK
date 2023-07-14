@@ -11,10 +11,16 @@ function FriendshipPage() {
     const [requests, setRequests] = useState<Friendship[]>([]);
 
     useEffect(() => {
-        if (DynamicPixels.token == "")
-            router.push("/");
+        (async ()=> {
+            if (localStorage.getItem("token") == null)
+                router.push("/");
+            else if (DynamicPixels.token == "")
+                await DynamicPixels.Auth.LoginWithToken({
+                    token: localStorage.getItem("token") || ""
+                })
 
-        GetFriends();
+            await GetFriends();
+        })()
     },[]);
 
     async function GetFriends(){

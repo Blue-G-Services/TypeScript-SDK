@@ -2,13 +2,23 @@ import styles from "../../../styles/Home.module.css";
 import {useEffect, useState} from "react";
 import { Device } from "../../../Sdk/dto/device";
 import DynamicPixels from "../../../Sdk/DynamicPixels";
+import router from "next/router";
 
 function DevicesPage(){
 
     const [list, setList] = useState<Device[]>([]);
 
     useEffect(()=>{
-        getDevices();
+        (async ()=> {
+            if (localStorage.getItem("token") == null)
+                router.push("/");
+            else if (DynamicPixels.token == "")
+                await DynamicPixels.Auth.LoginWithToken({
+                    token: localStorage.getItem("token") || ""
+                })
+
+            await getDevices();
+        })()
     },[])
 
     async function getDevices(){

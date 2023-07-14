@@ -1,4 +1,4 @@
-import {Party, PartyMember} from "../../dto/Party";
+import {Party, PartyMember} from "../../dto/party";
 import {IParty} from "../../ports/services";
 import {
     AcceptJoiningParams,

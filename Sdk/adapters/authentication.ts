@@ -14,6 +14,9 @@ import axios from "axios";
 import DynamicPixels from "../DynamicPixels";
 
 export class Auth implements IAuth {
+    Logout(): void {
+        throw new Error("Method not implemented.");
+    }
 
     IsLoggedIn():boolean{
         return DynamicPixels.token != "";
@@ -26,7 +29,7 @@ export class Auth implements IAuth {
                 input,
                 {});
 
-            DynamicPixels.token = data.token;
+            DynamicPixels.Configure(data.token, data.connection);
             return data;
         } catch (e :any) {
             throw new Error(e.response?.data)
@@ -39,8 +42,8 @@ export class Auth implements IAuth {
                 `${DynamicPixels._gameApiEndpoint}/api/auth/email/login`,
                 input,
                 {});
-            console.log({ token: data.token})
-            DynamicPixels.token = data.token;
+
+            DynamicPixels.Configure(data.token, data.connection);
             return data;
         } catch (e :any) {
             throw new Error(e.response?.data)
@@ -54,15 +57,25 @@ export class Auth implements IAuth {
                 input,
                 {});
 
-            DynamicPixels.token = data.token;
+            DynamicPixels.Configure(data.token, data.connection);
             return data;
         } catch (e :any) {
             throw new Error(e.response?.data)
         }
     }
 
-    async LoginWithToken<T extends LoginWithTokenParams>(input: T): Promise<void> {
-        DynamicPixels.token = input.token;
+    async LoginWithToken<T extends LoginWithTokenParams>(input: T): Promise<LoginResponse> {
+        try {
+            let {data} = await axios.post<LoginResponse>(
+                `${DynamicPixels._gameApiEndpoint}/api/auth/login`,
+                input,
+                {});
+
+            DynamicPixels.Configure(data.token, data.connection);
+            return data;
+        } catch (e :any) {
+            throw new Error(e.response?.data)
+        }
     }
 
     async RegisterWithEmail<T extends RegisterWithEmailParams>(input: T): Promise<LoginResponse> {
@@ -72,7 +85,7 @@ export class Auth implements IAuth {
                 input,
                 {});
 
-            DynamicPixels.token = data.token;
+            DynamicPixels.Configure(data.token, data.connection);
             return data;
         } catch (e :any) {
             throw new Error(e.response?.data)
@@ -109,7 +122,8 @@ export class Auth implements IAuth {
                 `${DynamicPixels._gameApiEndpoint}/api/auth/ota/verify`,
                 input,
                 {});
-            DynamicPixels.token = data.token;
+
+            DynamicPixels.Configure(data.token, data.connection);
             return data;
         } catch (e :any) {
             throw new Error(e.response?.data)

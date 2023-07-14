@@ -1,6 +1,6 @@
 import { IFriendship} from "../../ports/services";
 import {
-    AcceptRequestParams,
+    AcceptRequestParams, DeleteFriendParams,
     GetMyFriendshipRequestParams,
     GetMyFriendsParams, RejectRequestParams,
     RequestFriendshipParams
@@ -27,10 +27,10 @@ export class Friendships implements IFriendship{
         }
     }
 
-    async DeleteFriend<T extends RequestFriendshipParams>(input: T): Promise<boolean> {
+    async DeleteFriend<T extends DeleteFriendParams>(input: T): Promise<boolean> {
         try {
             let {data} = await axios.delete(
-                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/${input.targetUserId}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/${input.userId}`,
                 {
                     headers:{
                         "Authorization": `bearer ${DynamicPixels.token}`
@@ -111,7 +111,7 @@ export class Friendships implements IFriendship{
         try {
             let {data} = await axios.post(
                 `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/request`,
-                {"user_id": input.targetUserId},
+                {"user_id": input.userId},
                 {
                     headers:{
                         "Authorization": `bearer ${DynamicPixels.token}`

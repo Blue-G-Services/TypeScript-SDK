@@ -9,7 +9,7 @@ export class GetMyFriendshipRequestParams {
 }
 
 export class RequestFriendshipParams {
-    public targetUserId: number = 0;
+    public userId: number = 0;
 }
 
 export class AcceptRequestParams {
@@ -18,4 +18,8 @@ export class AcceptRequestParams {
 
 export class RejectRequestParams {
     public requestId: number = 0;
+}
+
+export class DeleteFriendParams {
+    public userId: number = 0;
 }

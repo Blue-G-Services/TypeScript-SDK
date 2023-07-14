@@ -1,5 +1,5 @@
-export class User{
-    public id:number = 0;
+export class User {
+    public id: number = 0;
     public name: string = "";
     public email: string = "";
     public phone_number: string = "";
@@ -12,5 +12,4 @@ export class User{
     public is_guest: boolean = false;
     public first_login: string = "";
     public last_login: string = "";
-
 }

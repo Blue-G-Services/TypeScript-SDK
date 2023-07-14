@@ -1,4 +1,4 @@
-import {Party} from "../../../dto/Party";
+import {Party} from "../../../dto/party";
 
 export class GetPartiesParams {
     public query: string = "";

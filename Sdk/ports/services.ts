@@ -6,7 +6,7 @@ import {Chats} from "../adapters/services/chats";
 import {Friendships} from "../adapters/services/friendships";
 import {UnlockAchievementParams} from "../adapters/services/requests/achievements";
 import {
-  AcceptRequestParams,
+  AcceptRequestParams, DeleteFriendParams,
   GetMyFriendshipRequestParams,
   GetMyFriendsParams, RejectRequestParams,
   RequestFriendshipParams
@@ -36,7 +36,7 @@ import { Friendship } from "../dto/friendship";
 import {Achievement, Unlock} from "../dto/achievement";
 import { Device } from "../dto/device";
 import { Parties } from "../adapters/services/parties";
-import {Party, PartyMember} from "../dto/Party";
+import {Party, PartyMember} from "../dto/party";
 import {
   AcceptJoiningParams,
   CreatePartyParams, EditPartyParams,
@@ -45,6 +45,7 @@ import {
   JoinToPartyParams,
   LeavePartyParams, RejectJoiningParams, SetMemberVariablesParams
 } from "../adapters/services/requests/party";
+import {Chat, Message} from "../dto/chat";
 
 export class Services {
   public Users: IUsers = new Users();
@@ -73,9 +74,7 @@ export interface ILeaderboards {
 
   GetUsersScores<T extends GetScoresParams>(input: T): Promise<UserScore[]>
   GetPartiesScores<T extends GetScoresParams>(input: T): Promise<PartyScore[]>
-
   GetFriendsScores<T extends GetMyFriendsScoresParams>(input: T): Promise<UserScore[]>
-
   GetMyScore<T extends GetMyScoreParams>(input: T): Promise<UserScore>
 
   SubmitScore<T extends SubmitScoreParams>(input: T): Promise<Score>
@@ -95,6 +94,7 @@ export interface IParty{
   GetPartyById<T extends GetPartyByIdParams>(input: T): Promise<Party>
   GetPartyMembers<T extends GetPartyMembersParams>(input: T): Promise<PartyMember[]>
   SetMemberVariables<T extends SetMemberVariablesParams>(input: T): Promise<PartyMember>
+
   GetPartyWaitingMembers<T extends GetPartyWaitingMembersParams>(input: T): Promise<Party[]>
   EditParty<T extends EditPartyParams>(input: T): Promise<Party>
   AcceptJoining<T extends AcceptJoiningParams>(input: T): Promise<PartyMember>
@@ -102,25 +102,23 @@ export interface IParty{
 }
 
 export interface IChats {
-  Send<T extends SendParams>(): Promise<object>
+  Send<T extends SendParams>(input: T): void
 
-  Subscribe<T extends SubscribeParams>(): void
+  Subscribe<T extends SubscribeParams>(input: T): void
 
-  Unsubscribe<T extends UnsubscribeParams>(): void
+  Unsubscribe<T extends UnsubscribeParams>(input: T): void
 
-  GetSubscribedConversations<T extends GetSubscribedConversationsParams>(): Promise<object[]>
+  GetSubscribedConversations<T extends GetSubscribedConversationsParams>(input: T): Promise<Chat[]>
 
-  GetConversationMessages<T extends GetConversationMessagesParams>(): Promise<object[]>
+  GetConversationMessages<T extends GetConversationMessagesParams>(input: T): Promise<Message[]>
 
-  GetConversationMembers<T extends GetConversationMembersParams>(): Promise<object[]>
+  GetConversationMembers<T extends GetConversationMembersParams>(input: T): Promise<Message[]>
 
-  EditMessage<T extends EditMessageParams>(): Promise<object>
+  EditMessage<T extends EditMessageParams>(input: T): void
 
-  DeleteMessage<T extends DeleteMessageParams>(): Promise<object>
+  DeleteMessage<T extends DeleteMessageParams>(input: T): void
 
-  DeleteAllMessage<T extends DeleteAllMessageParams>(): void
-
-  DeleteMessagesOfUser<T extends DeleteMessagesOfUserParams>(): void
+  DeleteMessagesOfUser<T extends DeleteMessagesOfUserParams>(input: T): void
 }
 
 export interface IFriendship {
@@ -136,5 +134,5 @@ export interface IFriendship {
 
   RejectAllRequests(): void
 
-  DeleteFriend<T extends RequestFriendshipParams>(input: T): Promise<boolean>
+  DeleteFriend<T extends DeleteFriendParams>(input: T): Promise<boolean>
 }

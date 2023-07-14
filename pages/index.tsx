@@ -23,12 +23,14 @@ export default function Login() {
     try {
       setLoading(true);
 
-      let response = await DynamicPixels.Auth.LoginWithEmail(
+      let result = await DynamicPixels.Auth.LoginWithEmail(
           new LoginWithEmailParams({
             email: email.toString(),
             password: password.toString(),
           })
       );
+
+      localStorage.setItem("token", result.token);
 
       await router.push("/console/home")
     }catch (e) {
