@@ -22,6 +22,7 @@ export class Packet {
 
 export interface WebSocketProvider {
   Send(packet: Packet): void;
+  Close(): void;
 }
 
 export class webSocketProvider implements WebSocketProvider {
@@ -51,6 +52,10 @@ export class webSocketProvider implements WebSocketProvider {
 
     console.log(`Connected to ${wssEdgeEndpoint}`);
 
+  }
+
+  Close(): void {
+    webSocketProvider._client.close();
   }
 
   Send(packet: Packet) {

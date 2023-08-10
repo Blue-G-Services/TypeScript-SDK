@@ -1,4 +1,4 @@
-import { FileInfo } from "../dto/Storage";
+import { FileInfo } from "../dto/storage";
 
 export interface IStorage{
     GetFileInfo(fileName: string): Promise<FileInfo>

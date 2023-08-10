@@ -1,4 +1,4 @@
-import { FileInfo } from "../dto/Storage";
+import { FileInfo } from "../dto/storage";
 import {IStorage} from "../ports/storage";
 import axios from "axios";
 import DynamicPixels from "../DynamicPixels";

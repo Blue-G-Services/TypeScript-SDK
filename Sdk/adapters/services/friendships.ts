@@ -53,13 +53,13 @@ export class Friendships implements IFriendship{
                     }
                 });
 
-            return data;
+            return data.list;
         } catch (e :any) {
             throw new Error(e.response.data)
         }
     }
 
-    async GetMyFriendshipRequests<T extends GetMyFriendshipRequestParams>(input: T): Promise<object[]> {
+    async GetMyFriendshipRequests<T extends GetMyFriendshipRequestParams>(input: T): Promise<Friendship[]> {
         try {
             let {data} = await axios.get(
                 `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/request?skip=${input.skip}&limit=${input.limit}`,
@@ -69,7 +69,7 @@ export class Friendships implements IFriendship{
                     }
                 });
 
-            return data;
+            return data.list;
         } catch (e :any) {
             throw new Error(e.response.data)
         }
@@ -111,7 +111,7 @@ export class Friendships implements IFriendship{
         try {
             let {data} = await axios.post(
                 `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/request`,
-                {"user_id": input.userId},
+                {"target_user_id": input.userId},
                 {
                     headers:{
                         "Authorization": `bearer ${DynamicPixels.token}`

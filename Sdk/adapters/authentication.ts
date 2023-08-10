@@ -15,7 +15,10 @@ import DynamicPixels from "../DynamicPixels";
 
 export class Auth implements IAuth {
     Logout(): void {
-        throw new Error("Method not implemented.");
+        DynamicPixels.token = "";
+
+        // dispose connections
+        DynamicPixels.socket.Close();
     }
 
     IsLoggedIn():boolean{
@@ -74,7 +77,10 @@ export class Auth implements IAuth {
             DynamicPixels.Configure(data.token, data.connection);
             return data;
         } catch (e :any) {
-            throw new Error(e.response?.data)
+            if(e.response)
+                throw new Error(e.response?.data)
+            else
+                throw new Error(e)
         }
     }
 

@@ -2,7 +2,8 @@ import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import DynamicPixels from "../../../Sdk/DynamicPixels";
 import styles from "../../../styles/Home.module.css";
-import {FileInfo} from "../../../Sdk/dto/Storage";
+// @ts-ignore
+import {FileInfo} from "../../../Sdk/dto/storage";
 
 function StoragePage(){
     const router = useRouter();
@@ -32,8 +33,7 @@ function StoragePage(){
     }
 
     return <>
-        <main className={styles.main}>
-            <div className="container">
+        <main className="container" style={{marginTop:40}}>
                 <div className={styles.center} style={{alignItems: "normal"}}>
                     <h1>DynamicPixels</h1>
                     <h3>Storage</h3>
@@ -57,7 +57,6 @@ function StoragePage(){
                         </div>
                     </div>
                 </div>
-            </div>
         </main>
     </>
 }

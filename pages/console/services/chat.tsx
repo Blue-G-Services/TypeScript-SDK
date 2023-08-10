@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import styles from "../../../styles/Chat.module.css";
 import DynamicPixels from "../../../Sdk/DynamicPixels";
 import {useRouter} from "next/router";
-import {Chat, Message} from "../../../Sdk/dto/chat";
+import {Chat, ChatMember, Message} from "../../../Sdk/dto/chat";
 import {MessageInput, MessageType} from "../../../Sdk/adapters/services/requests/chat";
 
 class Chats {
@@ -17,23 +17,24 @@ function ChatPage() {
   const [chats, setChats] = useState<Chat[]>([]);
   const [selectedChat, setSelectedChat] = useState<Chat>();
   const [messages, setMessages] = useState<Message[]>([]);
+  const [members, setMembers] = useState<ChatMember[]>([]);
 
-  useEffect(()=>{
-    (async ()=>{
+  useEffect(() => {
+    (async () => {
       if (localStorage.getItem("token") == null)
         router.push("/");
-      else if(DynamicPixels.token == "")
+      else if (DynamicPixels.token == "")
         await DynamicPixels.Auth.LoginWithToken({
           token: localStorage.getItem("token") || ""
         })
 
       await getSubscribedChats()
     })()
-  }, [])
+  }, [router])
 
   const onType = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      await DynamicPixels.Services.Chats.Send({
+      DynamicPixels.Services.Chats.Send({
         targetId: selectedChat?.id || 0,
         message: new MessageInput({
           text: e.currentTarget.value,
@@ -52,9 +53,9 @@ function ChatPage() {
     setChats(chats);
   }
 
-  async function Subscribe(e: any){
+  async function Subscribe(e: any) {
     e.preventDefault();
-    const {conversation_id,conversation_name} = Object.fromEntries(
+    const {conversation_id, conversation_name} = Object.fromEntries(
         new FormData(e.target).entries()
     );
 
@@ -72,14 +73,23 @@ function ChatPage() {
       skip: 0,
       limit: 50
     });
-
     setMessages(messages);
+
+    let members = await DynamicPixels.Services.Chats.GetConversationMembers({
+      conversationId: chat.id, limit: 50, skip: 0
+    });
+    setMembers(members);
+  }
+
+  async function deleteConversation(chatId: number) {
+    DynamicPixels.Services.Chats.Unsubscribe({
+      conversationId: chatId,
+    });
   }
 
   return (
       <>
-        <main className={styles.main}>
-          <div className="container">
+        <main className="container" style={{marginTop:40}}>
             <div className={styles.center} style={{alignItems: "normal"}}>
               <h1>DynamicPixels</h1>
               <h3>Chats</h3>
@@ -91,10 +101,12 @@ function ChatPage() {
                   <div className="card-body">
                     <form onSubmit={Subscribe}>
                       <div className="mb-3">
-                        <input type="number" className="form-control" name="conversation_id" placeholder="Conversation Id"/>
+                        <input type="number" className="form-control" name="conversation_id"
+                               placeholder="Conversation Id"/>
                       </div>
                       <div className="mb-3">
-                        <input type="text" className="form-control" name="conversation_name" placeholder="Conversation Name"/>
+                        <input type="text" className="form-control" name="conversation_name"
+                               placeholder="Conversation Name"/>
                       </div>
                       <div className="mb-3">
                         <button type="submit" className="btn btn-primary mb-3">Submit</button>
@@ -102,41 +114,52 @@ function ChatPage() {
                     </form>
                   </div>
                 </div>
-
-                {chats.map(chat => <div style={{
-                  display:"flex",
-                  justifyContent:"space-between",
-                  alignItems:'center',
-                  marginBottom: 5,
-                  backgroundColor:"white",
-                  borderRadius:5,
-                  padding:5
-                }}>
+                {chats.map(chat => <div
+                    key={`chat-${chat.id}`}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: 'center',
+                      marginBottom: 5,
+                      backgroundColor: "white",
+                      borderRadius: 5,
+                      padding: 5
+                    }}>
                   <a href="#!" onClick={() => selectConversation(chat)}>{chat.name}</a>
-                  <button className="btn btn-primary">delete</button>
+                  <button onClick={() => deleteConversation(chat.id)} className="btn btn-primary">Leave</button>
                 </div>)}
               </div>
-              <div className="col-lg-8">
-              <div className="card">
-                <div className="card-body">
-                  {messages.map((msg) => (
-                      <div key={msg.id} className={`${styles.message} ${msg.is_me ? styles.outgoing : styles.incoming}`}>
-                        {msg.text}
-                      </div>
-                  ))}
+              <div className="col-lg-4">
+                <div className="card">
+                  <div className="card-body">
+                    {messages.map((msg) => (
+                        <div key={msg.id}
+                             className={`${styles.message} ${msg.is_me ? styles.outgoing : styles.incoming}`}
+                        >
+                          {msg.text}
+                        </div>
+                    ))}
 
-                  <div className={styles.input}>
-                    <input
-                        type="text"
-                        placeholder="Type your message here!"
-                        onKeyDown={onType}
-                    />
+                    <div className={styles.input}>
+                      <input
+                          type="text"
+                          placeholder="Type your message here!"
+                          onKeyDown={onType}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
+              <div className="col-lg-4">
+                <ul>
+                {members.map(member => <li
+                    key={`member-${member.id}`}
+                   >
+                  {member.name}
+                </li>)}
+                </ul>
+              </div>
             </div>
-            </div>
-          </div>
         </main>
       </>
   );

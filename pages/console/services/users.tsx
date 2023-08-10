@@ -23,7 +23,7 @@ function UsersPage(){
 
             await getUserById();
         })()
-    },[]);
+    },[router]);
 
     async function findUsers(e: ChangeEvent<{ value: string }>){
         setQuery(e.currentTarget.value);
@@ -53,8 +53,7 @@ function UsersPage(){
     }
 
     return <>
-        <main className={styles.main}>
-            <div className="container">
+        <main className="container" style={{marginTop:40}}>
                 <div className={styles.center} style={{alignItems:"normal"}}>
                     <h1>DynamicPixels</h1>
                     <h3>Users</h3>
@@ -123,7 +122,7 @@ function UsersPage(){
                             </div>
                         </div>
 
-                        {list.map(user => <div className="card mb-3">
+                        {list.map(user => <div className="card mb-3" key={`user-${user.id}`}>
                             <div className="card-body">
                                 <img src={user.image} style={{borderRadius:'50%', height:40, width:40}}/>
                                 <span>{user.name}</span>
@@ -132,7 +131,6 @@ function UsersPage(){
 
                     </div>
                 </div>
-            </div>
         </main>
     </>
 }

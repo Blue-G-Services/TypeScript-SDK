@@ -12,7 +12,7 @@ function AchievementPage() {
     useEffect(() => {
         (async ()=> {
             if (localStorage.getItem("token") == null)
-                router.push("/");
+                await router.push("/");
             else if (DynamicPixels.token == "")
                 await DynamicPixels.Auth.LoginWithToken({
                     token: localStorage.getItem("token") || ""
@@ -20,7 +20,7 @@ function AchievementPage() {
 
             await GetAchievements();
         })()
-    }, []);
+    }, [router]);
 
     async function GetAchievements() {
         let achievements = await DynamicPixels.Services.Achievements.GetAchievements();
@@ -35,22 +35,21 @@ function AchievementPage() {
     }
 
     return (<>
-        <main className={styles.main}>
-            <div className="container">
-                <div className={styles.center} style={{alignItems: "normal"}}>
+        <main className="container" style={{marginTop:40}}>
+            <div className="row mb-3">
                     <h1>DynamicPixels</h1>
                     <h3>Achievements</h3>
                 </div>
 
                 <div className="row">
-                    {achievements.map(achievement => <div className="col-sm-12 col-lg-3">
+                    {achievements.map(achievement => <div key={`achievement-${achievement.id}`} className="col-sm-12 col-lg-3">
                         <div className="card">
                             <div className="card-body text-center">
                                 <h4>{achievement.name}</h4>
                                 <p>{achievement.desc}</p>
                                 <table className="table">
                                     <tbody>
-                                    {achievement.steps.map(step => <tr>
+                                    {achievement.steps.map(step => <tr key={`${achievement.id}-step-${step.id}`}>
                                         <td>{step.name}</td>
                                         <td>{step.point}</td>
                                         <td>{
@@ -67,7 +66,6 @@ function AchievementPage() {
                         </div>
                     </div>)}
                 </div>
-            </div>
         </main>
     </>)
 }

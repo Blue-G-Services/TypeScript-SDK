@@ -14,7 +14,7 @@ import {
 } from "./requests/chat";
 import DynamicPixels from "../../DynamicPixels";
 import axios from "axios";
-import {Chat, Message} from "../../dto/chat";
+import {Chat, ChatMember, Message} from "../../dto/chat";
 import { Packet } from "../../transport/socket/wss/wss";
 
 export class Payload {
@@ -100,10 +100,10 @@ export class Chats implements IChats{
         }));
     }
 
-    async GetConversationMembers<T extends GetConversationMembersParams>(input: T): Promise<Message[]> {
+    async GetConversationMembers<T extends GetConversationMembersParams>(input: T): Promise<ChatMember[]> {
         try {
             let {data} = await axios.get(
-                `${DynamicPixels._gameApiEndpoint}/api/table/services/chats/member?skip=${input.skip}&limit=${input.limit}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/chats/${input.conversationId}/member?skip=${input.skip}&limit=${input.limit}`,
                 {
                     headers:{
                         "Authorization": `bearer ${DynamicPixels.token}`
@@ -112,7 +112,10 @@ export class Chats implements IChats{
 
             return data.list;
         } catch (e: any) {
-            throw new Error(e.response.data)
+            if(e.response)
+                throw new Error(e.response?.data)
+            else
+                throw new Error(e)
         }
     }
 
@@ -128,7 +131,10 @@ export class Chats implements IChats{
 
             return data.list;
         } catch (e: any) {
-            throw new Error(e.response.data)
+            if(e.response)
+                throw new Error(e.response.data)
+            else
+                throw new Error(e)
         }
     }
 
@@ -144,7 +150,10 @@ export class Chats implements IChats{
 
             return data.list;
         } catch (e: any) {
-            throw new Error(e.response.data)
+            if(e.response)
+                throw new Error(e.response.data)
+            else
+                throw new Error(e)
         }
     }
 }

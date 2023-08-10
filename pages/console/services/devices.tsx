@@ -27,9 +27,8 @@ function DevicesPage(){
     }
 
     return <>
-        <main className={styles.main}>
-            <div className="container">
-                <div className={styles.center} style={{alignItems: "normal"}}>
+        <main className="container" style={{marginTop:40}}>
+            <div className="row mb-3">
                     <h1>DynamicPixels</h1>
                     <h3>Devices</h3>
                 </div>
@@ -45,8 +44,6 @@ function DevicesPage(){
                         </table>
                     </div>
                 </div>
-
-            </div>
         </main>
     </>
 }

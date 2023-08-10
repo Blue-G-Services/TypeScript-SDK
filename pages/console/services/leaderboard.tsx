@@ -23,7 +23,7 @@ function LeaderboardsPage(){
 
             await getLeaderboards();
         })()
-    }, []);
+    }, [router]);
 
     async function getLeaderboards(){
         try {
@@ -76,9 +76,8 @@ function LeaderboardsPage(){
     }
 
     return <>
-        <main className={styles.main}>
-            <div className="container">
-                <div className={styles.center} style={{alignItems:"normal"}}>
+        <main className="container" style={{marginTop:40}}>
+                <div className="row mb-3">
                     <h1>DynamicPixels</h1>
                     <h3>Leaderboards</h3>
                 </div>
@@ -92,9 +91,14 @@ function LeaderboardsPage(){
                             <div className="card-body">
                                 <div className="list-group list-group-flush">
 
-                                {leaderboards.map(leaderboard => <a href="#!" className="list-group-item list-group-item-action" onClick={()=>SelectLeaderboard(leaderboard)}>
+                                {leaderboards.map(leaderboard => <a href="#!" key={`leaderboard-${leaderboard.id}`} className="list-group-item list-group-item-action" onClick={()=>SelectLeaderboard(leaderboard)}>
                                     <h6>{leaderboard.name}</h6>
                                     <small>{leaderboard.participants === 0 ? "Users":"Parties"}</small>
+                                    -
+                                    <small>{leaderboard.order === 0 && "Minimum"}</small>
+                                    <small>{leaderboard.order === 1 && "Maximum"}</small>
+                                    <small>{leaderboard.order === 2 && "Last Score"}</small>
+                                    <small>{leaderboard.order === 3 && "Sum of scores"}</small>
                                 </a>)}
                                 </div>
                             </div>
@@ -126,7 +130,7 @@ function LeaderboardsPage(){
                             </tr>
                             </thead>
                             <tbody>
-                            {scores.map(score => <tr>
+                            {scores.map(score => <tr key={`score-${score.id}`}>
                                 <td>{score.rank}</td>
                                 <td>{score.name}</td>
                                 <td>{score.value}</td>
@@ -137,7 +141,6 @@ function LeaderboardsPage(){
                         </table>
                     </div>
                 </div>
-            </div>
         </main>
     </>
 }

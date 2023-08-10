@@ -18,17 +18,18 @@ export default function Home() {
         token: localStorage.getItem("token") || ""
       })
 
-  }, [])
+  }, [router])
 
   return (
       <>
-        <main className={styles.main}>
-          <div className={styles.center}>
+        <main className="container">
+          <div className="row" style={{marginTop:40}}>
+
+          <div className="col-sm-12 text-center mb-3">
             <h1>DynamicPixels</h1>
             <h3>TS-SDK</h3>
           </div>
-
-          <div className="container">
+          </div>
           <div className="row g-2">
             <div className="col-sm-12 col-md-4 col-lg-3">
               <Link href="/console/services/leaderboard" className="card shadow-lg p-3 mb-2 bg-body rounded">
@@ -37,7 +38,7 @@ export default function Home() {
                     Leaderboard <span>-&gt;</span>
                   </h2>
                   <p className={inter.className}>
-                    View a leaderboard's scores and submit a new score
+                    View a leaderboards scores and submit a new score
                   </p>
                 </div>
               </Link>
@@ -50,7 +51,7 @@ export default function Home() {
                     Achievement <span>-&gt;</span>
                   </h2>
                   <p className={inter.className}>
-                    Track player's progress and reward them with prizes
+                    Track players progress and reward them with prizes
                   </p>
                 </div>
               </Link>
@@ -133,8 +134,20 @@ export default function Home() {
                 </div>
               </Link>
             </div>
+            <div className="col-sm-12 col-md-4 col-lg-3">
+              <Link href="/console/services/tables" className="card shadow-lg p-3 mb-2 bg-body rounded">
+                <div className="card-body">
+                  <h2 className={inter.className}>
+                    Tables <span>-&gt;</span>
+                  </h2>
+                  <p className={inter.className}>
+                    Manage games data directly
+                  </p>
+                </div>
+              </Link>
+            </div>
           </div>
-          </div>
+
         </main>
       </>
   );

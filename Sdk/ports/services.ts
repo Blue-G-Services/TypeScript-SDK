@@ -45,7 +45,7 @@ import {
   JoinToPartyParams,
   LeavePartyParams, RejectJoiningParams, SetMemberVariablesParams
 } from "../adapters/services/requests/party";
-import {Chat, Message} from "../dto/chat";
+import {Chat, ChatMember, Message} from "../dto/chat";
 
 export class Services {
   public Users: IUsers = new Users();
@@ -112,7 +112,7 @@ export interface IChats {
 
   GetConversationMessages<T extends GetConversationMessagesParams>(input: T): Promise<Message[]>
 
-  GetConversationMembers<T extends GetConversationMembersParams>(input: T): Promise<Message[]>
+  GetConversationMembers<T extends GetConversationMembersParams>(input: T): Promise<ChatMember[]>
 
   EditMessage<T extends EditMessageParams>(input: T): void
 
@@ -124,7 +124,7 @@ export interface IChats {
 export interface IFriendship {
   GetMyFriends<T extends GetMyFriendsParams>(input: T): Promise<Friendship[]>
 
-  GetMyFriendshipRequests<T extends GetMyFriendshipRequestParams>(input: T): Promise<object[]>
+  GetMyFriendshipRequests<T extends GetMyFriendshipRequestParams>(input: T): Promise<Friendship[]>
 
   RequestFriendship<T extends RequestFriendshipParams>(input: T): Promise<object>
 

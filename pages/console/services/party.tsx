@@ -1,9 +1,8 @@
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {Party, PartyMember} from "../../../Sdk/dto/Party";
 import DynamicPixels from "../../../Sdk/DynamicPixels";
-import styles from "../../../styles/Home.module.css";
 import {CreatePartyParams} from "../../../Sdk/adapters/services/requests/party";
+import {Party, PartyMember} from "../../../Sdk/dto/party";
 
 function PartyPage() {
     const router = useRouter();
@@ -26,7 +25,7 @@ function PartyPage() {
             await getParties("");
             await getSubscribedParties("");
         })()
-    }, []);
+    }, [router]);
 
     async function getParties(query: string) {
         setQuery(query);
@@ -88,9 +87,8 @@ function PartyPage() {
     }
 
     return <>
-        <main className={styles.main}>
-            <div className="container">
-                <div className={styles.center} style={{alignItems: "normal"}}>
+        <main className="container" style={{marginTop:40}}>
+            <div className="row mb-3">
                     <h1>DynamicPixels</h1>
                     <h3>Parties</h3>
                 </div>
@@ -105,7 +103,7 @@ function PartyPage() {
                         </div>
                         <table className="table">
                             <tbody>
-                            {list.map(party=><tr>
+                            {list.map(party=><tr key={`party-${party.id}`}>
                                 <td>{party.id}</td>
                                 <td>{party.name}</td>
                                 <td>{party.max_member_count}</td>
@@ -117,7 +115,7 @@ function PartyPage() {
                     <div className="col-sm-12 col-lg-4">
                         <table className="table">
                             <tbody>
-                            {subscribed.map(party=><tr>
+                            {subscribed.map(party=><tr key={`subscribed-${party.id}`}>
                                 <td>{party.id}</td>
                                 <td><a href="#" onClick={() => SelectParty(party.id)}>{party.name}</a></td>
                                 <td>{party.max_member_count}</td>
@@ -140,7 +138,7 @@ function PartyPage() {
 
                             <table className="table">
                                 <tbody>
-                                {selectedPartyMember.map(member => <tr>
+                                {selectedPartyMember.map(member => <tr key={`member-${member.id}`}>
                                     <td>{member.id}</td>
                                     <td>{member.name}</td>
                                     <td>{member.status ? "Accepted":"Waiting"}</td>
@@ -150,7 +148,6 @@ function PartyPage() {
                         </div>
                     </div>
                 </div>
-            </div>
         </main>
     </>
 

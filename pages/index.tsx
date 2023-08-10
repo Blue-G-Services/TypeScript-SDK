@@ -42,19 +42,18 @@ export default function Login() {
 
   return (
     <>
-      <main className={styles.main}>
-        <div className={styles.center}>
+      <main className="container">
+        <div className="row" style={{marginTop:40}}>
+        <div className="col-sm-12 text-center">
           <h1>DynamicPixels</h1>
           <h3>Login / Register</h3>
         </div>
-        <div className={styles.gridcenter}>
+          <div className="col-sm-12 col-lg-8 offset-lg-2 col-xl-4 offset-xl-4">
           <form className={styles.form} onSubmit={onLogin}>
-
             <div className="mb-3">
               <label htmlFor="email" className="form-label">Email address</label>
               <input type="text" className="form-control" name="email" placeholder="Email" required />
             </div>
-
             <div className="mb-3">
               <label htmlFor="password" className="form-label">Password</label>
               <input
@@ -65,7 +64,6 @@ export default function Login() {
                 required
               />
             </div>
-
             <div className={styles.input}>
               <Link href="/register">Register new account</Link>
             </div>
@@ -80,6 +78,7 @@ export default function Login() {
               </button>
             </div>
           </form>
+        </div>
         </div>
       </main>
     </>
