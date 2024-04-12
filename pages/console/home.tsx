@@ -1,7 +1,7 @@
 import { Inter } from "@next/font/google";
 import styles from "../../styles/Home.module.css";
 import Link from "next/link";
-import DynamicPixels from "../../Sdk/DynamicPixels";
+import DynamicPixels from "../../sdk/DynamicPixels";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 

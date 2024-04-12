@@ -1,7 +1,7 @@
 import styles from "../../../styles/Home.module.css";
 import {useEffect, useState} from "react";
-import { Device } from "../../../Sdk/dto/device";
-import DynamicPixels from "../../../Sdk/DynamicPixels";
+import { Device } from "../../../sdk/dto/device";
+import DynamicPixels from "../../../sdk/DynamicPixels";
 import router from "next/router";
 
 function DevicesPage(){

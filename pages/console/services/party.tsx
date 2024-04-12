@@ -1,8 +1,8 @@
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import DynamicPixels from "../../../Sdk/DynamicPixels";
-import {CreatePartyParams} from "../../../Sdk/adapters/services/requests/party";
-import {Party, PartyMember} from "../../../Sdk/dto/party";
+import DynamicPixels from "../../../sdk/DynamicPixels";
+import {CreatePartyParams} from "../../../sdk/adapters/services/requests/party";
+import {Party, PartyMember} from "../../../sdk/dto/party";
 
 function PartyPage() {
     const router = useRouter();

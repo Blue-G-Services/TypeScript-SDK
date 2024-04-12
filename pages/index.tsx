@@ -1,5 +1,5 @@
-import DynamicPixels from "../Sdk/DynamicPixels";
-import {LoginWithEmailParams} from "../Sdk/ports/authentication";
+import DynamicPixels from "../sdk/DynamicPixels";
+import {LoginWithEmailParams} from "../sdk/ports/authentication";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import {useRouter} from "next/router";

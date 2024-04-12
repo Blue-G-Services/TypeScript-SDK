@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
-import DynamicPixels from "../../../Sdk/DynamicPixels";
+import DynamicPixels from "../../../sdk/DynamicPixels";
 import styles from "../../../styles/Home.module.css";
-import {Friendship} from "../../../Sdk/dto/friendship";
+import {Friendship} from "../../../sdk/dto/friendship";
 
 function FriendshipPage() {
     const router = useRouter();

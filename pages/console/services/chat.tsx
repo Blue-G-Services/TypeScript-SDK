@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import styles from "../../../styles/Chat.module.css";
-import DynamicPixels from "../../../Sdk/DynamicPixels";
+import DynamicPixels from "../../../sdk/DynamicPixels";
 import {useRouter} from "next/router";
-import {Chat, ChatMember, Message} from "../../../Sdk/dto/chat";
-import {MessageInput, MessageType} from "../../../Sdk/adapters/services/requests/chat";
+import {Chat, ChatMember, Message} from "../../../sdk/dto/chat";
+import {MessageInput, MessageType} from "../../../sdk/adapters/services/requests/chat";
 
 class Chats {
   public id: number = 0;

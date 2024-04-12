@@ -1,5 +1,5 @@
-import DynamicPixels from "../Sdk/DynamicPixels";
-import {RegisterWithEmailParams} from "../Sdk/ports/authentication";
+import DynamicPixels from "../sdk/DynamicPixels";
+import {RegisterWithEmailParams} from "../sdk/ports/authentication";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import {useState} from "react";

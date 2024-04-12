@@ -1,7 +1,7 @@
 import styles from "../../../styles/Home.module.css";
 import {ChangeEvent, ChangeEventHandler, useEffect, useState} from "react";
-import DynamicPixels from "../../../Sdk/DynamicPixels";
-import {User} from "../../../Sdk/dto/user";
+import DynamicPixels from "../../../sdk/DynamicPixels";
+import {User} from "../../../sdk/dto/user";
 import {useRouter} from "next/router";
 
 function UsersPage(){

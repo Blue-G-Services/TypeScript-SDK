@@ -1,9 +1,9 @@
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import DynamicPixels from "../../../Sdk/DynamicPixels";
+import DynamicPixels from "../../../sdk/DynamicPixels";
 import styles from "../../../styles/Home.module.css";
 // @ts-ignore
-import {FileInfo} from "../../../Sdk/dto/storage";
+import {FileInfo} from "../../../sdk/dto/storage";
 
 function StoragePage(){
     const router = useRouter();

@@ -1,7 +1,7 @@
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import DynamicPixels from "../../../Sdk/DynamicPixels";
-import {Party} from "../../../Sdk/dto/party";
+import DynamicPixels from "../../../sdk/DynamicPixels";
+import {Party} from "../../../sdk/dto/party";
 
 function TablesPage() {
     const router = useRouter();

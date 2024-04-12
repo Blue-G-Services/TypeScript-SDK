@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import DynamicPixels from "../../../Sdk/DynamicPixels";
+import DynamicPixels from "../../../sdk/DynamicPixels";
 import 'bootstrap/dist/css/bootstrap.css'
 import styles from "../../../styles/Home.module.css";
-import {Leaderboard, PartyScore, UserScore} from "../../../Sdk/dto/leaderboard";
+import {Leaderboard, PartyScore, UserScore} from "../../../sdk/dto/leaderboard";
 import {useRouter} from "next/router";
 
 function LeaderboardsPage(){

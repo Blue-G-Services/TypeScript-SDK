@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
-import DynamicPixels from "../../../Sdk/DynamicPixels";
+import DynamicPixels from "../../../sdk/DynamicPixels";
 import styles from "../../../styles/Home.module.css";
-import {Achievement} from "../../../Sdk/dto/achievement";
+import {Achievement} from "../../../sdk/dto/achievement";
 
 function AchievementPage() {
     const router = useRouter();
