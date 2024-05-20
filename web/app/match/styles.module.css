@@ -1,0 +1,51 @@
+
+.board{
+    background: #EEE;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 15px #EEE;
+    height: 400px;
+}
+
+.cell {
+    background: #FAFAFA;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playerTwoBox{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.playerOneBox{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.playerOneCircle{
+    padding: 20px;
+    height: 40px;
+    width: 40px;
+    background: darkolivegreen;
+    border-radius: 50%;
+    margin-right: 10px;
+    box-shadow: 0 0 15px #EEE;
+}
+
+
+.playerTwoCircle{
+    padding: 20px;
+    height: 40px;
+    width: 40px;
+    background: brown;
+    border-radius: 50%;
+    margin-left:10px;
+    box-shadow: 0 0 15px #EEE;
+}
