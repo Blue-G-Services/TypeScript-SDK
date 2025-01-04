@@ -8,16 +8,21 @@ export class GetMyFriendshipRequestParams {
     public limit: number = 0;
 }
 
+export class GetMyFriendshipRequestingParams {
+    public skip: number = 0;
+    public limit: number = 0;
+}
+
 export class RequestFriendshipParams {
     public userId: number = 0;
 }
 
 export class AcceptRequestParams {
-    public requestId: number = 0;
+    public userId: number = 0;
 }
 
 export class RejectRequestParams {
-    public requestId: number = 0;
+    public userId: number = 0;
 }
 
 export class DeleteFriendParams {

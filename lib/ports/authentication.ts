@@ -36,7 +36,11 @@ export class LoginWithGoogleParams {
 }
 
 export class LoginAsGuestParams {
-  public device_id: string = "";
+  public device_info: {
+    device_id: string;
+  } = {
+    device_id: ""
+  };
 }
 
 export class LoginWithTokenParams {

@@ -22,8 +22,7 @@ export default function Leaderboard() {
   return (
     <main>
       <div
-        className="container justify-content-center align-items-center d-flex flex-column"
-        style={{ height: "100vh" }}
+        className="container justify-content-center align-items-center d-flex flex-column mb-3" style={{marginTop:"3em"}}
       >
         <div className="row mb-5">
           <div className="col-sm-12 text-center mb-3">
@@ -34,12 +33,15 @@ export default function Leaderboard() {
             style={{ background: "#FAFAFA", borderRadius: 5, padding: 10 }}
           >
             {scores.map(score => <div
-                style={{background: "#EEE", borderRadius: 5, padding: 5}}
-                className="d-flex justify-content-between align-items-center mb-2"
+                style={{borderBottom: "1px solid #EEE"}}
+                className="d-flex justify-content-between align-items-center mb-2 p5"
             >
-              <span>{score.name}</span>
-
-              <small>{score.value}</small>
+              <h5>{score.name}</h5>
+              <div>
+                <span>{score.value} Score</span>
+                <br/>
+                <small>{score.tries} Try</small>
+              </div>
             </div>)}
           </div>
         </div>

@@ -55,8 +55,9 @@ export class Leaderboards implements ILeaderboards{
 
     async GetUsersScores<T extends GetScoresParams>(input: T): Promise<UserScore[]> {
         try {
-            let {data} = await axios.get(
+            let {data} = await axios.post(
                 `${DynamicPixels._gameApiEndpoint}/api/table/services/leaderboard/user/${input.LeaderboardId}?skip=${input.Skip}&limit=${input.Limit}`,
+                {},
                 {
                     headers:{
                         "Authorization": `bearer ${DynamicPixels.token}`
@@ -72,8 +73,9 @@ export class Leaderboards implements ILeaderboards{
 
     async GetPartiesScores<T extends GetScoresParams>(input: T): Promise<PartyScore[]> {
         try {
-            let {data} = await axios.get(
+            let {data} = await axios.post(
                 `${DynamicPixels._gameApiEndpoint}/api/table/services/leaderboard/party/${input.LeaderboardId}?skip=${input.Skip}&limit=${input.Limit}`,
+                {},
                 {
                     headers:{
                         "Authorization": `bearer ${DynamicPixels.token}`

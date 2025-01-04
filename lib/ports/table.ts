@@ -4,16 +4,24 @@ export class Query{
 
 }
 
-export class AggregationParams {
-    public tableId: string = "";
+export class JoinParams{
+    public table_name: string = "";
+    public local_field: string = "";
+    public foreign_field: string = "";
 }
 
 export class FindParams {
     public tableId: string = "";
     public findOptions?: {
-        query: Query,
-        Skip: number,
-        Limit: number
+        conditions?: Query ,
+        joins?: JoinParams[];
+        select?: string[] ;
+        sorts?: { string: string }
+        skip: number,
+        limit: number
+    } = {
+        skip: 0,
+        limit: 25
     };
 }
 
@@ -22,14 +30,23 @@ export class FindByIdParams{
     public rowId:number = 0;
 }
 
-export class FindByIdAndDeleteParams{
+export class FindOneParams{
     public tableId:string="";
-    public rowId:number = 0;
+    public conditions: Query | undefined;
+    public joins: JoinParams[] = [];
 }
 
-export class FindByIdAndUpdateParams{
+export class FindOneAndDeleteParams{
     public tableId:string="";
-    public rowId:number = 0;
+    public conditions: Query | undefined;
+    public joins: JoinParams[] = [];
+    public select: string[] = [];}
+
+export class FindOneAndUpdateParams{
+    public tableId:string="";
+    public conditions: Query | undefined;
+    public joins: JoinParams[] = [];
+    public select: string[] = [];
     public data: object = {};
 }
 
@@ -43,20 +60,31 @@ export class InsertManyParams{
     public data: object[] = [];
 }
 
-export class UpdateManyParams {
+export class UpdateParams {
     public tableId: string = "";
-    public query: Query = {};
+    public rowId: string = "";
     public data: object = {};
 }
 
-export class DeleteParams{
+export class UpdateManyParams {
+    public tableId: string = "";
+    public conditions: Query = {};
+    public data: object = {};
+}
+
+export class DeleteByIDParams{
+    public tableId: string = "";
+    public rowsId: number= 0;
+}
+
+export class DeleteByIDsParams{
     public tableId:string="";
-    public rowsId:number[] = [];
+    public ids:number[] = [];
 }
 
 export class DeleteManyParams {
     public tableId: string = "";
-    public query: Query = {};
+    public conditions: Query = {};
 }
 
 export interface ITable {
@@ -64,17 +92,23 @@ export interface ITable {
 
     FindById<T extends FindByIdParams>(input: T): Promise<object>;
 
-    FindByIdAndDelete<T extends FindByIdAndDeleteParams>(input: T): Promise<object>;
+    FindOne<T extends FindOneParams>(input: T): Promise<object>;
 
-    FindByIdAndUpdate<T extends FindByIdAndUpdateParams>(input: T): Promise<object>;
+    FindOneAndDelete<T extends FindOneAndDeleteParams>(input: T): Promise<object>;
+
+    FindOneAndUpdate<T extends FindOneAndUpdateParams>(input: T): Promise<object>;
 
     Insert<T extends InsertParams>(input: T): Promise<object>;
 
     InsertMany<T extends InsertManyParams>(input: T): void;
 
+    Update<T extends UpdateParams>(input: T): void;
+
     UpdateMany<T extends UpdateManyParams>(input: T): void;
 
-    Delete<T extends DeleteParams>(input: T): Promise<object>;
+    DeleteByID<T extends DeleteByIDParams>(input: T): Promise<object>;
+
+    DeleteByIDs<T extends DeleteByIDsParams>(input: T): Promise<object>;
 
     DeleteMany<T extends DeleteManyParams>(input: T): void;
 }

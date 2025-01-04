@@ -6,7 +6,7 @@ import {Chats} from "../adapters/services/chats";
 import {Friendships} from "../adapters/services/friendships";
 import {UnlockAchievementParams} from "../adapters/services/requests/achievements";
 import {
-  AcceptRequestParams, DeleteFriendParams,
+  AcceptRequestParams, DeleteFriendParams, GetMyFriendshipRequestingParams,
   GetMyFriendshipRequestParams,
   GetMyFriendsParams, RejectRequestParams,
   RequestFriendshipParams
@@ -125,6 +125,8 @@ export interface IFriendship {
   GetMyFriends<T extends GetMyFriendsParams>(input: T): Promise<Friendship[]>
 
   GetMyFriendshipRequests<T extends GetMyFriendshipRequestParams>(input: T): Promise<Friendship[]>
+
+  GetMyFriendshipRequesting<T extends GetMyFriendshipRequestingParams>(input: T): Promise<Friendship[]>
 
   RequestFriendship<T extends RequestFriendshipParams>(input: T): Promise<object>
 

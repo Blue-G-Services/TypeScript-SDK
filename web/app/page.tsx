@@ -7,7 +7,7 @@ export default function Home() {
     const router = useRouter()
 
     useEffect(()=>{
-        DynamicPixels.Setup("crovq9", "nlargt0coxj5dsp5jjcz1n", false);
+        DynamicPixels.Setup("im49q2", "ijm6qtxpob9l8jq13oe7ca", false);
     })
 
     const onSubmit = async (e: any)=>{
@@ -17,11 +17,12 @@ export default function Home() {
             new FormData(e.target).entries()
         );
 
-        await DynamicPixels.Auth.LoginWithEmail({
+        let cred = await DynamicPixels.Auth.LoginWithEmail({
             email: email as string,
             password: password as string,
         });
 
+        // cred.
         router.push("/menu");
     }
 
@@ -35,10 +36,7 @@ export default function Home() {
 
     return (
         <main>
-            <div
-                className="container justify-content-center align-items-center d-flex flex-column"
-                style={{ height: "100vh" }}
-            >
+            <div className="container justify-content-center align-items-center d-flex flex-column mb-5" style={{marginTop:"3em"}}>
                 <div className="row mb-5">
                     <div className="col-sm-12 mb-5 text-center">
                         <h1>TicTocToe</h1>

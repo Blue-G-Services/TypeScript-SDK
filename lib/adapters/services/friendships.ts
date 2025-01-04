@@ -1,6 +1,6 @@
 import { IFriendship} from "../../ports/services";
 import {
-    AcceptRequestParams, DeleteFriendParams,
+    AcceptRequestParams, DeleteFriendParams, GetMyFriendshipRequestingParams,
     GetMyFriendshipRequestParams,
     GetMyFriendsParams, RejectRequestParams,
     RequestFriendshipParams
@@ -13,7 +13,7 @@ export class Friendships implements IFriendship{
     async AcceptRequest<T extends AcceptRequestParams>(input: T): Promise<object> {
         try {
             let {data} = await axios.post(
-                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/request/${input.requestId}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/request/${input.userId}`,
                 {},
                 {
                     headers:{
@@ -75,6 +75,22 @@ export class Friendships implements IFriendship{
         }
     }
 
+    async GetMyFriendshipRequesting<T extends GetMyFriendshipRequestingParams>(input: T): Promise<Friendship[]> {
+        try {
+            let {data} = await axios.get(
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/requesting?skip=${input.skip}&limit=${input.limit}`,
+                {
+                    headers:{
+                        "Authorization": `bearer ${DynamicPixels.token}`
+                    }
+                });
+
+            return data.list;
+        } catch (e :any) {
+            throw new Error(e.response.data)
+        }
+    }
+
     async RejectAllRequests(): Promise<void> {
         try {
             let {data} = await axios.delete(
@@ -94,7 +110,7 @@ export class Friendships implements IFriendship{
     async RejectRequest<T extends RejectRequestParams>(input: T): Promise<object> {
         try {
             let {data} = await axios.delete(
-                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/request/${input.requestId}`,
+                `${DynamicPixels._gameApiEndpoint}/api/table/services/friendship/request/${input.userId}`,
                 {
                     headers:{
                         "Authorization": `bearer ${DynamicPixels.token}`

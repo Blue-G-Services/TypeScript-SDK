@@ -18,7 +18,8 @@ export class Auth implements IAuth {
         DynamicPixels.token = "";
 
         // dispose connections
-        DynamicPixels.socket.Close();
+        if (DynamicPixels.socket)
+            DynamicPixels.socket.Close();
     }
 
     IsLoggedIn():boolean{

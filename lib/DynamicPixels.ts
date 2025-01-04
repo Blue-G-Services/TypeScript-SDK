@@ -14,10 +14,13 @@ class DynamicPixels {
   public static Setup(clientId: string, clientSecret: string, isDevelopment: boolean) {
     this._clientId = clientId;
     this._clientSecret = clientSecret;
+
     if(!isDevelopment)
       this._gameApiEndpoint = `https://link.dynamicpixels.dev/game/${this._clientId}`;
     else
       this._gameApiEndpoint = "http://localhost:5114";
+
+    console.log("DynamicPixels initialized");
   }
 
   public static _clientId: string;
@@ -29,7 +32,7 @@ class DynamicPixels {
   public static Configure(token: string, connection: ConnectionInfo){
     DynamicPixels.token = token;
     if(connection.protocol == "wss")
-      DynamicPixels.socket = new webSocketProvider(`ws://${connection.endpoint}`, token)
+      DynamicPixels.socket = new webSocketProvider(`ws://ws-europe.dynamicpixels.dev/ws`, token)
   }
 
   public static Auth: IAuth = new Auth();

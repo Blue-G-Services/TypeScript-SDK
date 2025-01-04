@@ -1,66 +1,31 @@
 import {
-    AggregationParams,
+    DeleteByIDParams, DeleteByIDsParams,
     DeleteManyParams,
-    DeleteParams,
-    FindByIdAndDeleteParams, FindByIdAndUpdateParams,
-    FindByIdParams,
+    FindByIdParams, FindOneAndDeleteParams, FindOneAndUpdateParams, FindOneParams,
     FindParams, InsertManyParams, InsertParams,
-    ITable, UpdateManyParams
+    ITable, UpdateManyParams, UpdateParams
 } from "../ports/table";
 import axios from "axios";
 import DynamicPixels from "../DynamicPixels";
 
 export class Table implements ITable {
 
-    Aggregation<T extends AggregationParams>(input: T): Promise<object> {
-        return Promise.resolve({undefined});
-    }
-
-    async Delete<T extends DeleteParams>(input: T): Promise<object> {
-        try {
-            let {data} = await axios.post(
-                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/delete`,
-                {ids: input.rowsId},
-                {
-                    headers: {
-                        "Authorization": `bearer ${DynamicPixels.token}`
-                    }
-                });
-
-            return data
-        } catch (e: any) {
-            throw new Error(e.response.data)
-        }
-    }
-
-    async DeleteMany<T extends DeleteManyParams>(input: T): Promise<void> {
-        try {
-            let {data} = await axios.put(
-                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/delete`,
-                {conditions: input.query},
-                {
-                    headers: {
-                        "Authorization": `bearer ${DynamicPixels.token}`
-                    }
-                });
-
-            return data
-        } catch (e: any) {
-            throw new Error(e.response.data)
-        }
-    }
-
     async Find<T extends FindParams>(input: T): Promise<object[]> {
         try {
-            let {data} = await axios.get(
-                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}?skip=${input.findOptions?.Skip}&limit=${input.findOptions?.Limit}`,
+            let {data} = await axios.put(
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}?skip=${input.findOptions?.skip}&limit=${input.findOptions?.limit}`,
                 {
+                    conditions: input.findOptions?.conditions,
+                    sorts: input.findOptions?.sorts,
+                    joins: input.findOptions?.joins,
+                    select: input.findOptions?.select,
+                },{
                     headers: {
                         "Authorization": `bearer ${DynamicPixels.token}`
                     }
                 });
 
-            return data;
+            return data.list;
         } catch (e: any) {
             throw new Error(e.response.data)
         }
@@ -82,10 +47,28 @@ export class Table implements ITable {
         }
     }
 
-    async FindByIdAndDelete<T extends FindByIdAndDeleteParams>(input: T): Promise<object> {
+    async FindOne<T extends FindOneParams>(input: T): Promise<object> {
         try {
-            let {data} = await axios.delete(
-                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/${input.rowId}`,
+            let {data} = await axios.post(
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/find-one`,
+                input,
+                {
+                    headers: {
+                        "Authorization": `bearer ${DynamicPixels.token}`
+                    }
+                });
+
+            return data;
+        } catch (e: any) {
+            throw new Error(e.response.data)
+        }
+    }
+
+    async FindOneAndDelete<T extends FindOneAndDeleteParams>(input: T): Promise<object> {
+        try {
+            let {data} = await axios.post(
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/find-one-and-delete`,
+                input,
                 {
                     headers: {
                         "Authorization": `bearer ${DynamicPixels.token}`
@@ -98,11 +81,11 @@ export class Table implements ITable {
         }
     }
 
-    async FindByIdAndUpdate<T extends FindByIdAndUpdateParams>(input: T): Promise<object> {
+    async FindOneAndUpdate<T extends FindOneAndUpdateParams>(input: T): Promise<object> {
         try {
             let {data} = await axios.post(
-                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/${input.rowId}`,
-                input.data,
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/find-one-and-update`,
+                input,
                 {
                     headers: {
                         "Authorization": `bearer ${DynamicPixels.token}`
@@ -119,7 +102,7 @@ export class Table implements ITable {
         try {
             let {data} = await axios.post(
                 `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}`,
-                input.data,
+                input,
                 {
                     headers: {
                         "Authorization": `bearer ${DynamicPixels.token}`
@@ -136,7 +119,7 @@ export class Table implements ITable {
         try {
             let {data} = await axios.post(
                 `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/insert`,
-                input.data,
+                input,
                 {
                     headers: {
                         "Authorization": `bearer ${DynamicPixels.token}`
@@ -148,7 +131,89 @@ export class Table implements ITable {
         }
     }
 
-    async UpdateMany<T extends UpdateManyParams>(input: T): Promise<void> {
+    async Update<T extends UpdateParams>(input: T): Promise<void> {
+        try {
+            let {data} = await axios.put(
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/${input.rowId}`,
+                input,
+                {
+                    headers: {
+                        "Authorization": `bearer ${DynamicPixels.token}`
+                    }
+                });
 
+            return data
+        } catch (e: any) {
+            throw new Error(e.response.data)
+        }
     }
+
+    async UpdateMany<T extends UpdateManyParams>(input: T): Promise<void> {
+        try {
+            let {data} = await axios.put(
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/update`,
+                input,
+                {
+                    headers: {
+                        "Authorization": `bearer ${DynamicPixels.token}`
+                    }
+                });
+
+            return data
+        } catch (e: any) {
+            throw new Error(e.response.data)
+        }
+    }
+
+    async DeleteByID<T extends DeleteByIDParams>(input: T): Promise<object> {
+        try {
+            let {data} = await axios.post(
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/delete`,
+                {ids: [input.rowsId]},
+                {
+                    headers: {
+                        "Authorization": `bearer ${DynamicPixels.token}`
+                    }
+                });
+
+            return data
+        } catch (e: any) {
+            throw new Error(e.response.data)
+        }
+    }
+
+    async DeleteByIDs<T extends DeleteByIDsParams>(input: T): Promise<object> {
+        try {
+            let {data} = await axios.post(
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/delete`,
+                {ids: input.ids},
+                {
+                    headers: {
+                        "Authorization": `bearer ${DynamicPixels.token}`
+                    }
+                });
+
+            return data
+        } catch (e: any) {
+            throw new Error(e.response.data)
+        }
+    }
+
+    async DeleteMany<T extends DeleteManyParams>(input: T): Promise<void> {
+        try {
+            let {data} = await axios.put(
+                `${DynamicPixels._gameApiEndpoint}/api/table/${input.tableId}/delete`,
+                {conditions: input.conditions},
+                {
+                    headers: {
+                        "Authorization": `bearer ${DynamicPixels.token}`
+                    }
+                });
+
+            return data
+        } catch (e: any) {
+            throw new Error(e.response.data)
+        }
+    }
+
 }
