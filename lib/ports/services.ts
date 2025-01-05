@@ -12,7 +12,6 @@ import {
   RequestFriendshipParams
 } from "../adapters/services/requests/friendship";
 import {
-  DeleteAllMessageParams,
   DeleteMessageParams, DeleteMessagesOfUserParams,
   EditMessageParams,
   GetConversationMembersParams,
@@ -46,6 +45,10 @@ import {
   LeavePartyParams, RejectJoiningParams, SetMemberVariablesParams
 } from "../adapters/services/requests/party";
 import {Chat, ChatMember, Message} from "../dto/chat";
+import {Match, MatchSummary, Room} from "../dto/multiplayer";
+import {CreateRoomParams, GetAllRoomsParams} from "../adapters/services/requests/multiplayer";
+import {MatchService} from "../adapters/services/multiplayer/match";
+import {RoomService} from "../adapters/services/multiplayer/room";
 
 export class Services {
   public Users: IUsers = new Users();
@@ -55,6 +58,33 @@ export class Services {
   public Chats: IChats = new Chats();
   public Party: IParty = new Parties();
   public Friendship: IFriendship = new Friendships();
+  public MultiPlayer: MultiPlayer = new MultiPlayer();
+}
+
+export class MultiPlayer{
+  public RoomService: IRoomService = new RoomService();
+  public MatchService: IMatchService = new MatchService();
+}
+
+export interface IRoomService {
+  CreateRoom(input: CreateRoomParams): Promise<Room>;
+  CreateAndOpenRoom(input: CreateRoomParams): Promise<Room>;
+  GetAllRooms(inputParams: GetAllRoomsParams): Promise<Room[]>;
+  GetAllMatchedRooms(inputParams: GetAllRoomsParams): Promise<Room[]>;
+  GetRoomById(roomId: number): Promise<Room>;
+  GetRoomByName(name: string): Promise<Room>;
+  Join(roomId: number): Promise<Room>;
+  JoinByName(roomName: string): Promise<Room>;
+  AutoMatch(): Promise<Room>;
+  Leave(roomId: number): Promise<void>;
+  DeleteRoom(roomId: number): Promise<void>;
+}
+
+export interface IMatchService {
+  MakeMatch(roomId: number, lockRoom: boolean): Promise<Match>
+  MakeAndStartMatch(roomId: number, lockRoom: boolean): Promise<Match>
+  LoadMatch(matchId: number): Promise<Match>
+  GetMyMatches(): Promise<MatchSummary[]>
 }
 
 export interface IUsers {

@@ -1,7 +1,11 @@
 import {Services} from "./services";
 
 export class Query{
-
+    public op: string = "";
+    public field?: string;
+    public value?: any;
+    public values?: any[];
+    public list?: Query[];
 }
 
 export class JoinParams{
@@ -13,7 +17,7 @@ export class JoinParams{
 export class FindParams {
     public tableId: string = "";
     public findOptions?: {
-        conditions?: Query ,
+        conditions?: Query,
         joins?: JoinParams[];
         select?: string[] ;
         sorts?: { string: string }
@@ -68,7 +72,7 @@ export class UpdateParams {
 
 export class UpdateManyParams {
     public tableId: string = "";
-    public conditions: Query = {};
+    public conditions: Query = new Query();
     public data: object = {};
 }
 
@@ -84,7 +88,7 @@ export class DeleteByIDsParams{
 
 export class DeleteManyParams {
     public tableId: string = "";
-    public conditions: Query = {};
+    public conditions: Query = new Query();
 }
 
 export interface ITable {

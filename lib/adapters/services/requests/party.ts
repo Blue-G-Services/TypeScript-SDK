@@ -1,7 +1,7 @@
 import {Party} from "../../../dto/party";
 
 export class GetPartiesParams {
-    public query: string = "";
+    public query?: string = "";
     public skip: number = 0;
     public limit: number = 25;
 }

@@ -5,8 +5,8 @@ export class Party{
     public image: string = "";
     public max_member_count: number = 0;
     public is_private: boolean = false;
-    public teams: string[] = [];
-    public channels: string[] = [];
+    public teams: string = "";
+    public channels: string = "";
     public variables: Map<string, any> = new Map<string, any>();
 }
 
