@@ -1,9 +1,16 @@
 "use client"
 import styles from "./styles.module.css";
-import { useState} from "react";
+import {useEffect, useState} from "react";
+import DynamicPixels from "../../../lib/DynamicPixels";
 
 export default function Match() {
     const [cells, setCells] = useState([{}, {}, {}, {}, {}, {}, {}, {}, {}])
+
+    useEffect(() => {
+        (async () => {
+            await DynamicPixels.Services.MultiPlayer.RoomService.AutoMatch();
+        })()
+    }, []);
 
     return (
         <main>

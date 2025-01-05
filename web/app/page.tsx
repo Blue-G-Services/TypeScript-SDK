@@ -6,10 +6,6 @@ import {useRouter} from "@/node_modules/next/dist/client/components/navigation";
 export default function Home() {
     const router = useRouter()
 
-    useEffect(()=>{
-        DynamicPixels.Setup("im49q2", "ijm6qtxpob9l8jq13oe7ca", false);
-    })
-
     const onSubmit = async (e: any)=>{
         e.preventDefault();
 
@@ -22,14 +18,17 @@ export default function Home() {
             password: password as string,
         });
 
-        // cred.
+        localStorage.setItem("token", cred.token);
+
         router.push("/menu");
     }
 
     const onGuestLogin = async ()=>{
-        await DynamicPixels.Auth.LoginAsGuest({
+        let cred = await DynamicPixels.Auth.LoginAsGuest({
             device_info: {device_id:"123456789"}
         });
+
+        localStorage.setItem("token", cred.token);
 
         await router.push("/menu");
     }

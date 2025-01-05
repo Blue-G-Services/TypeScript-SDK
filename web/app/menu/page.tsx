@@ -12,9 +12,13 @@ export default function Home() {
 
           <div className="col-sm-12">
             <div className="d-grid gap-2 mb-2">
-              <button type="button" className="btn btn-success">
-                Start a Match
-              </button>
+              <Link
+                  href="/match"
+                  type="button"
+                  className="btn btn-success"
+              >
+                Start a match
+              </Link>
             </div>
             <div className="d-grid gap-2 mb-2">
               <Link

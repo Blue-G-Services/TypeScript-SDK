@@ -42,15 +42,6 @@ export default function SavePage() {
                         <h1>Table</h1>
                     </div>
                     <div className="col-sm-12 mb-3">
-                        <form className="d-flex row g-3">
-                            <div className="col-auto flex-fill">
-                                <label className="visually-hidden">User ID</label>
-                                <input type="text" className="form-control" name="user_id"/>
-                            </div>
-                            <div className="col-auto">
-                                <button type="submit" className="btn btn-primary mb-3">Invite</button>
-                            </div>
-                        </form>
                         <table>
                             <tbody>
                             {rows.map(row => <tr>
